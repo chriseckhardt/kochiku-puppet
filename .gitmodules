@@ -1,0 +1,12 @@
+[submodule "puppet/modules/stdlib"]
+	path = puppet/modules/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
+	url = https://github.com/puppetlabs/puppetlabs-mysql.git
+[submodule "puppet/modules/vcsrepo"]
+	path = puppet/modules/vcsrepo
+	url = https://github.com/puppetlabs/puppetlabs-vcsrepo.git
+[submodule "puppet/modules/rvm"]
+	path = puppet/modules/rvm
+	url = https://github.com/maestrodev/puppet-rvm.git
