@@ -30,8 +30,10 @@ class profile::kochiku {
     ensure  => present,
     require => Rvm_system_ruby['ruby-2.1.2'],
   }
-  rvm_gem {'ruby-2.1.2@kochiku/bundler':
-    ensure  => '1.6.1',
+  # Installing RVM breaks system Puppet so we install it into the default gem-
+  # set for subsequent runs of Puppet.
+  rvm_gem {'ruby-2.1.2@kochiku/puppet':
+    ensure  => present,
     require => Rvm_gemset['ruby-2.1.2@kochiku'],
   }
 }
@@ -43,14 +45,8 @@ class profile::kochiku::server inherits ::profile::kochiku {
     provider => git,
     # Change this to a value using a forked repo you can commit back to
     source   => 'https://github.com/square/kochiku.git',
-  } ->
-  exec {'build_kochiku_server':
-    command => 'bundle install && rake db::setup && rails server',
-    path    => '/usr/local/rvm/gems/ruby-2.1.2/bin/bundle',
-    cwd     => '/vagrant/kochiku',
-    user    => 'vagrant',
-    require => [Rvm_gem['ruby-2.1.2@kochiku/bundler'],Package[$::mysql::params::server_package_name]],
   }
+  class {'redis':}
 }
 
 class profile::kochiku::worker inherits ::profile::kochiku {
@@ -60,19 +56,12 @@ class profile::kochiku::worker inherits ::profile::kochiku {
     provider => git,
     # Change this to a value using a forked repo you can commit back to
     source   => 'https://github.com/square/kochiku-worker.git',
-    } ->
-    exec {'build_kochiku_worker':
-      command => 'bundle install && QUEUE=ci,developer rake resque:work',
-      path    => '/usr/local/rvm/gems/ruby-2.1.2/bin/bundle',
-      cwd     => '/vagrant/kochiku-worker',
-      user    => 'vagrant',
-      require => [Rvm_gem['ruby-2.1.2@kochiku/bundler'],Package[$::mysql::params::server_package_name]],
     }
 }
 
 class profile::kochiku::database {
   class {'::mysql::server':
-    root_password    => '',
-    override_options => $override_options,
+    #root_password    => '',
+    #override_options => ,
   }
 }

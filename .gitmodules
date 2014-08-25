@@ -10,3 +10,6 @@
 [submodule "puppet/modules/rvm"]
 	path = puppet/modules/rvm
 	url = https://github.com/maestrodev/puppet-rvm.git
+[submodule "puppet/modules/redis"]
+	path = puppet/modules/redis
+	url = https://github.com/fsalum/puppet-redis.git
