@@ -21,6 +21,9 @@ case $majorver in
     7)
         rpm -q epel-release || sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-7-0.2.noarch.rpm
         ;;
+    *)
+        echo "This OS is unsupported, or something is horribly wrong."
+        exit 1
 esac
 
 # Install latest Puppet
